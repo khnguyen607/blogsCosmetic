@@ -13,7 +13,7 @@ function defaultFunc() {
             .then(data => {
                 if (data) {
                     alert('Đăng nhập thành công')
-                    // location.reload()
+                    location.href="./index.html"
                 } else {
                     alert('Tên tài khoản, mật khẩu không đúng!')
                 }

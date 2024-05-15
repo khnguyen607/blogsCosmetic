@@ -29,4 +29,19 @@ class CommentModel extends BaseModel
         return $this->bmDelete(self::TABLE, $id);
     }
 
+    public function mAllsFK()
+    {
+        $sql = "SELECT comments.*, users.Name AS userName, blogs.Name AS blogName
+                FROM comments
+                INNER JOIN users ON comments.userID = users.ID
+                INNER JOIN blogs ON comments.blogID = blogs.ID;";
+        $query = $this->_query($sql);
+        $data = [];
+
+        while ($row = mysqli_fetch_assoc($query)) {
+            array_push($data, $row);
+        }
+
+        return $data;
+    }
 }

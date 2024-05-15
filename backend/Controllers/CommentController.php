@@ -55,7 +55,21 @@ class CommentController extends BaseController
     public function delete()
     {
         $id = $_GET['id'];
-        $this->model->mDelete($id);
-        header("Location: ../frontend/admin/?page=nutritionists");
+        $sql = "DELETE FROM `comments` WHERE parentCommentID=$id";
+        $this->model->_query($sql);
+        if ($this->model->mDelete($id)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
+    public function allsFK()
+    {
+        $data = $this->model->mAllsFK();
+
+        // Trả về dữ liệu dưới dạng JSON
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }

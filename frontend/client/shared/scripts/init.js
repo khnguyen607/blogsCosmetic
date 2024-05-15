@@ -50,8 +50,11 @@ async function addScript(script) {
 }
 
 async function _setUser() {
+    // await Helper.fetchBackendLink()
     var checkUser = Helper.getCookie('user_id')
-    if (checkUser) {
+    var userInfo = await Helper.fetchData("user&action=find&id=" + Helper.getCookie('user_id'))
+
+    if (checkUser && userInfo.Role == 0) {
         document.querySelector(".ht-us-menu").innerHTML = `
             <li><a href="#"><i class="fa fa-user-circle-o"></i>Xin chào, Nguyên</a>
                 <ul class="ht-dropdown right">

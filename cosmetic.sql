@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th5 15, 2024 lúc 12:43 PM
+-- Thời gian đã tạo: Th5 15, 2024 lúc 03:41 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -56,18 +56,20 @@ CREATE TABLE `blogs` (
   `Subtitle` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Img` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `Img` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userID` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `blogs`
 --
 
-INSERT INTO `blogs` (`ID`, `Name`, `Subtitle`, `Content`, `Date`, `Img`) VALUES
-(1, 'Bài viết 1', 'Đây là tóm tắt bài viết 1', 'Đây là nội dung bài viết 1', '2024-05-15 13:47:07', 'blogs/blog1.png'),
-(2, 'Bài viết 2', 'Đây là tóm tắt bài viết 2', 'Đây là nội dung bài viết 2', '2024-05-15 13:47:07', 'blogs/blog2.png'),
-(3, 'Bài viết 3', 'Đây là tóm tắt bài viết 3', 'Đây là nội dung bài viết 3', '2024-05-15 13:47:07', 'blogs/blog3.png'),
-(4, 'Bài viết 4', 'Đây là tóm tắt bài viết 4', 'Đây là nội dung bài viết 4', '2024-05-15 13:47:07', 'blogs/blog-details-3.jpg');
+INSERT INTO `blogs` (`ID`, `Name`, `Subtitle`, `Content`, `Date`, `Img`, `userID`) VALUES
+(1, 'Bài viết 1', 'Đây là tóm tắt bài viết 1', '<p>Đây là nội dung bài viết 1</p>', '2024-05-15 13:47:07', 'blogs/blog1.png', 3),
+(2, 'Bài viết 2', 'Đây là tóm tắt bài viết 2', 'Đây là nội dung bài viết 2', '2024-05-15 13:47:07', 'blogs/blog2.png', 3),
+(3, 'Bài viết 3', 'Đây là tóm tắt bài viết 3', 'Đây là nội dung bài viết 3', '2024-05-15 13:47:07', 'blogs/blog3.png', 3),
+(4, 'Bài viết 4', 'Đây là tóm tắt bài viết 4', 'Đây là nội dung bài viết 4', '2024-05-15 13:47:07', 'blogs/blog-details-3.jpg', 3),
+(5, 'Bài viết test', 'Nội dung bài viết được thêm test', '<h1>Bài viết được thêm chi tiết</h1><p><strong>đây là bài viết được thêm</strong></p><ol><li>điều 1</li><li>điều 2</li><li>điều 3</li></ol>', '2024-05-15 22:01:36', 'blogs/khanhvd.png', 3);
 
 -- --------------------------------------------------------
 
@@ -132,18 +134,12 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`ID`, `Content`, `Date`, `parentCommentID`, `userID`, `blogID`) VALUES
-(17, 'Bình luận 1', '2024-05-15 08:35:39', NULL, 2, 1),
-(20, 'Bình luận 1.1', '2024-05-15 08:40:29', 17, 2, 1),
-(21, 'Bình luận 1.1.1', '2024-05-15 08:41:05', 20, 2, 1),
 (22, 'Bình luận 2', '2024-05-15 08:41:25', NULL, 2, 1),
 (23, 'Bình luận 3', '2024-05-15 08:41:25', NULL, 2, 1),
 (24, 'Bình luận 2.1', '2024-05-15 08:42:07', 22, 2, 1),
 (25, 'Bình luận 2.2', '2024-05-15 08:42:07', 22, 2, 1),
-(26, 'Bình luận 1.2', '2024-05-15 16:17:43', 17, 2, 1),
 (27, 'Bình luận 2.3', '2024-05-15 16:28:19', 22, 2, 1),
-(28, 'Bình luận 4', '2024-05-15 16:32:31', NULL, 2, 1),
-(29, '3. Bình luận 1', '2024-05-15 16:34:24', NULL, 2, 3),
-(30, '3. Bình luận 1.1', '2024-05-15 16:34:39', 29, 2, 3);
+(29, '3. Bình luận 1', '2024-05-15 16:34:24', NULL, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -193,9 +189,11 @@ CREATE TABLE `syn_blogs_categories` (
 
 INSERT INTO `syn_blogs_categories` (`ID`, `categoryID`, `blogID`) VALUES
 (1, 1, 2),
-(2, 1, 1),
-(3, 4, 1),
-(4, 2, 2);
+(2, 3, 1),
+(3, 3, 1),
+(4, 2, 2),
+(8, 2, 5),
+(9, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -234,7 +232,8 @@ ALTER TABLE `author`
 -- Chỉ mục cho bảng `blogs`
 --
 ALTER TABLE `blogs`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `blogs_users` (`userID`);
 
 --
 -- Chỉ mục cho bảng `categories`
@@ -293,13 +292,13 @@ ALTER TABLE `author`
 -- AUTO_INCREMENT cho bảng `blogs`
 --
 ALTER TABLE `blogs`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -323,17 +322,23 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `syn_blogs_categories`
 --
 ALTER TABLE `syn_blogs_categories`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `blogs`
+--
+ALTER TABLE `blogs`
+  ADD CONSTRAINT `blogs_users` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Các ràng buộc cho bảng `comments`

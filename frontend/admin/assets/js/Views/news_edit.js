@@ -15,16 +15,22 @@ async function defaultFunc() {
                 // hàm hiển thị phần edit 
                 function show_edit(edit) {
                     document.querySelector('.pagetitle h1').textContent = 'Sửa bài viết'
-                    fetch('./backend/index.php?controller=new&action=findNew&id=' + edit)
+                    fetch(Helper.backendLink + '?controller=blog&action=find&id=' + edit)
                         .then(response => response.json())
-                        .then(data => {
-                            document.querySelector('input[name="title"]').value = data.title
-                            document.querySelector('input[name="img"]').value = data.img
-                            document.querySelector('select[name="category_id"]').value = data.category_id
-                            document.querySelector('.quill-editor-default').innerHTML = data.content
+                        .then(async data => {
+                            console.log(data);
+                            document.querySelector('input[name="Name"]').value = data.Name
+                            document.querySelector('input[name="Subtitle"]').value = data.Subtitle
+                            document.querySelector('.quill-editor-default').innerHTML = data.Content
                             new Quill('.quill-editor-default', {
                                 theme: 'snow'
                             });
+
+                            var categories = await Helper.fetchData('blog&action=getCategories&id=' + edit)
+                            categories.forEach(category => {
+                                console.log(category.ID);
+                                document.querySelector(`select[name="category_id[]"] option[value="${category.ID}"]`).selected = true
+                            })
                         })
                 }
                 var edit = new URLSearchParams(window.location.search).get('edit')
@@ -47,7 +53,7 @@ async function defaultFunc() {
             // Gửi dữ liệu đến PHP
             var edit = new URLSearchParams(window.location.search).get('edit')
             var url = Helper.backendLink + '?controller=blog&action=insert'
-            if (edit) url = Helper.backendLink + 'controller=new&action=editNew&id=' + edit
+            if (edit) url = Helper.backendLink + '?controller=blog&action=update&id=' + edit
             fetch(url, {
                 method: 'POST',
                 body: formData

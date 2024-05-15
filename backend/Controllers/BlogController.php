@@ -37,7 +37,7 @@ class BlogController extends BaseController
             'Img'   => $this->saveFile()
         ];
         $blogID = $this->model->mInsert($data);
-        
+
         $selected_categories = $_POST['category_id'];
         if (!empty($selected_categories)) {
             foreach ($selected_categories as $category_id) {
@@ -55,14 +55,25 @@ class BlogController extends BaseController
         $id = $_GET['id'];
         $data = [
             'Name'      => $_POST['Name'],
-            'Price'      => $_POST['Price'],
             'Subtitle'  => $_POST['Subtitle'],
-            'Description'  => $_POST['Description'],
+            'Content'      => $_POST['Content'],
+            'userID'  => $_POST['userID'],
         ];
         $Img = $this->saveFile();
-        if ($Img) {
-            $data["Img"] = $Img;
+        if ($Img) $data["Img"] = $Img;
+
+        $selected_categories = $_POST['category_id'];
+        if (!empty($selected_categories)) {
+            $sql = "DELETE FROM `syn_blogs_categories` WHERE `blogID` = $id";
+            $this->model->_query($sql);
+            foreach ($selected_categories as $category_id) {
+                $sql = "INSERT INTO 
+                        `syn_blogs_categories`(`categoryID`, `blogID`) 
+                        VALUES ($category_id, $id)";
+                $this->model->_query($sql);
+            }
         }
+
         $this->model->mUpdate($id, $data);
         echo "true";
     }

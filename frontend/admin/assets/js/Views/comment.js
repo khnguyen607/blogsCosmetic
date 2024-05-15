@@ -1,22 +1,23 @@
 function defaultFunc() {
     var divtoNew = document.querySelector('.comment__info').cloneNode(true)
     // hàm hiển thị bài viết 
-    function show_comment() {
+    async function show_comment() {
+        await Helper.fetchBackendLink()
         document.querySelector('.comment__list').innerHTML = ''
-        fetch('./backend/index.php?controller=comment')
+        fetch(Helper.backendLink + '?controller=comment&action=allsFK')
             .then(response => response.json())
             .then(data => {
-                data = data.filter(item=>{
-                    return item.status == '1'
-                })
                 data.forEach(item => {
                     var divNew = divtoNew.cloneNode(true)
                     var td = divNew.querySelectorAll('td')
-                    td[0].textContent = item.new
-                    td[1].textContent = item.user
-                    td[2].textContent = item.content
-                    td[3].textContent = item.date
-                    td[4].querySelector('a').href = './backend/index.php?controller=comment&action=delCmt&id='+item.id
+                    td[0].textContent = item.blogName
+                    td[1].textContent = item.userName
+                    td[2].textContent = item.Content
+                    td[3].textContent = item.Date
+                    td[4].querySelector('a').addEventListener('click', async () => {
+                        await Helper.fetchData('comment&action=delete&id=' + item.ID)
+                        location.reload()
+                    })
                     document.querySelector('.comment__list').appendChild(divNew)
                 });
 
