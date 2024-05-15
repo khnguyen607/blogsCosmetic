@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th5 15, 2024 lúc 09:21 AM
+-- Thời gian đã tạo: Th5 15, 2024 lúc 10:37 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -94,7 +94,11 @@ INSERT INTO `comments` (`ID`, `Content`, `Date`, `parentCommentID`, `userID`, `b
 (23, 'Bình luận 3', '2024-05-15 08:41:25', NULL, 2, 1),
 (24, 'Bình luận 2.1', '2024-05-15 08:42:07', 22, 2, 1),
 (25, 'Bình luận 2.2', '2024-05-15 08:42:07', 22, 2, 1),
-(26, 'Bình luận 1.2', '2024-05-15 16:17:43', 17, 2, 1);
+(26, 'Bình luận 1.2', '2024-05-15 16:17:43', 17, 2, 1),
+(27, 'Bình luận 2.3', '2024-05-15 16:28:19', 22, 2, 1),
+(28, 'Bình luận 4', '2024-05-15 16:32:31', NULL, 2, 1),
+(29, '3. Bình luận 1', '2024-05-15 16:34:24', NULL, 2, 3),
+(30, '3. Bình luận 1.1', '2024-05-15 16:34:39', 29, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -197,7 +201,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `syn_blogs_categories`
