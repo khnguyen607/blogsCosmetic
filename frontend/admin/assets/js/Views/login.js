@@ -1,12 +1,5 @@
 function defaultFunc() {
-    var loginF = new URLSearchParams(window.location.search).get('loginF')
-    if (loginF) {
-        document.querySelector('#user').value = loginF
-        document.querySelector('.loginF').classList.remove('d-none')
-        console.log(document.querySelector('.loginF'))
-    }
-
-    document.querySelector("#login-form").addEventListener('submit', () => {
+    document.querySelector("#login-form").addEventListener('submit', (evt) => {
         evt.preventDefault();
         // Tạo một đối tượng FormData và thêm dữ liệu vào đó
         const formData = new FormData(document.querySelector("#login-form"));
@@ -31,6 +24,12 @@ function defaultFunc() {
             });
     })
 
+    var loginF = new URLSearchParams(window.location.search).get('loginF')
+    if (loginF) {
+        document.querySelector('#user').value = loginF
+        document.querySelector('.loginF').classList.remove('d-none')
+        console.log(document.querySelector('.loginF'))
+    }
 }
 
 document.addEventListener('DOMContentLoaded', defaultFunc)

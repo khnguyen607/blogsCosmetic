@@ -22,7 +22,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     fetch('layout.html')
         .then(response => response.text())
-        .then(data => {
+        .then(async data => {
+            var userInfo = await Helper.fetchData("user&action=find&id=" + getCookie('user_id'))
+
+            if (userInfo.Role == 0) {
+                window.location.href = 'login.html'
+            }
+
             var div = document.createElement('div')
             div.innerHTML = data
             document.querySelector('#header').innerHTML = div.querySelector('#header').innerHTML
@@ -53,13 +59,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch(Helper.backendLink + '?controller=user&action=find&id=' + getCookie('user_id'))
                 .then(response => response.json())
                 .then(data => {
-                    document.querySelector('.nav__user span.d-md-block').textContent = data.name
-                    document.querySelector('.nav__user .dropdown-header h6').textContent = data.name
-                    switch (data.role) {
-                        case '0':
+                    document.querySelector('.nav__user span.d-md-block').textContent = data.Name
+                    document.querySelector('.nav__user .dropdown-header h6').textContent = data.Name
+                    switch (data.Role) {
+                        case '1':
                             document.querySelector('.nav__user .dropdown-header span').textContent = 'Tác giả'
                             break;
-                        case '1':
+                        case '2':
                             document.querySelector('.nav__user .dropdown-header span').textContent = 'Quản trị viên'
                             document.querySelector('.side__user').classList.remove('d-none')
                             document.querySelector('.side__cmt').classList.remove('d-none')

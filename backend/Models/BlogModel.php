@@ -61,4 +61,24 @@ class BlogModel extends BaseModel
 
         return $data;
     }
+
+    public function mGetAllsFK()
+    {
+        $sql = "SELECT blogs.*, users.Name AS user, 
+            GROUP_CONCAT(categories.Name SEPARATOR ', ') AS categoriesValue
+            FROM blogs
+            INNER JOIN users ON blogs.userID = users.ID
+            LEFT JOIN syn_blogs_categories ON blogs.ID = syn_blogs_categories.blogID
+            LEFT JOIN categories ON syn_blogs_categories.categoryID = categories.ID
+            GROUP BY blogs.ID;
+            ";
+        $query = $this->_query($sql);
+        $data = [];
+
+        while ($row = mysqli_fetch_assoc($query)) {
+            array_push($data, $row);
+        }
+
+        return $data;
+    }
 }

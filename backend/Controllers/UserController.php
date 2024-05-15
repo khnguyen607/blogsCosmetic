@@ -36,6 +36,7 @@ class UserController extends BaseController
             'Username'  => $_POST['Username'],
             'Password'  => $_POST['Password'],
         ];
+        if (isset($_POST['Role'])) $data['Role'] = $_POST['Role'];
         if ($this->model->checkuser_name($data['Username'])) {
             $this->model->mInsert($data);
             echo "true";

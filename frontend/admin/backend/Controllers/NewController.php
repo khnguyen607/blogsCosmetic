@@ -36,6 +36,18 @@ class NewController extends BaseController
 
     public function addNew()
     {
+        $selected_categories = $_POST['category_id'];
+
+        if (!empty($selected_categories)) {
+            echo "Các danh mục đã chọn:<br>";
+            foreach ($selected_categories as $category_id) {
+                echo $category_id . "<br>";
+            }
+        } else {
+            echo "Không có danh mục nào được chọn.";
+        }
+        exit();
+
         $json_data = file_get_contents("php://input");
         $data = json_decode($json_data, true);
         $data['author_id'] = $_COOKIE['author_id'];

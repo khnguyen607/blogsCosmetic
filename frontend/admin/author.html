@@ -61,23 +61,19 @@
             <h1 class="modal-title fs-5" id="addAuthorLabel">Thêm tác giả</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="./backend/index.php?controller=author&action=addAuthor" method="post">
+          <form id="insertAuthorForm">
             <div class="modal-body row">
               <div class="mb-3">
                 <label for="author__name" class="form-label">Họ và Tên</label>
-                <input type="text" class="form-control" id="author__name" name="name">
-              </div>
-              <div class="mb-3">
-                <label for="author__email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="author__email" name="email">
+                <input type="text" class="form-control" id="author__name" name="Name">
               </div>
               <div class="mb-3 col-6">
                 <label for="author__user" class="form-label">Tên đăng nhập</label>
-                <input type="text" class="form-control" id="author__user" name="user">
+                <input type="text" class="form-control" id="author__user" name="Username">
               </div>
               <div class="mb-3 col-6">
                 <label for="author__pass" class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" id="author__pass" name="pass">
+                <input type="password" class="form-control" id="author__pass" name="Password">
               </div>
             </div>
             <div class="modal-footer">

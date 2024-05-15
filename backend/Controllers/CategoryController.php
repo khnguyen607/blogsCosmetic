@@ -22,11 +22,23 @@ class CategoryController extends BaseController
     public function insert()
     {
         $data = [
-            'name' => $_POST['name']
+            'Name' => $_POST['Name']
         ];
 
-        $this->categoryModel->mInsert($data);
-        header("Location: ../frontend/admin/category.html");
+        if ($this->categoryModel->mInsert($data)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
     }
 
+    public function delete()
+    {
+        $id = $_GET['id'];
+        if ($this->categoryModel->mDelete($id)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
 }

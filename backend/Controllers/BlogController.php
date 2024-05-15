@@ -3,7 +3,6 @@
 class BlogController extends BaseController
 {
     private $model;
-
     public function __construct()
     {
         $this->loadModel('BlogModel');
@@ -32,12 +31,22 @@ class BlogController extends BaseController
     {
         $data = [
             'Name'      => $_POST['Name'],
-            'Price'      => $_POST['Price'],
             'Subtitle'  => $_POST['Subtitle'],
-            'Description'  => $_POST['Description'],
+            'Content'      => $_POST['Content'],
+            'userID'  => $_POST['userID'],
             'Img'   => $this->saveFile()
         ];
-        $this->model->mInsert($data);
+        $blogID = $this->model->mInsert($data);
+        
+        $selected_categories = $_POST['category_id'];
+        if (!empty($selected_categories)) {
+            foreach ($selected_categories as $category_id) {
+                $sql = "INSERT INTO 
+                        `syn_blogs_categories`(`categoryID`, `blogID`) 
+                        VALUES ($category_id, $blogID)";
+                $this->model->_query($sql);
+            }
+        }
         echo "true";
     }
 
@@ -88,7 +97,7 @@ class BlogController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['Img'])) {
             // Thư mục đích để lưu trữ tệp tin
-            $uploadDirectory = 'www/images/products/';
+            $uploadDirectory = 'www/blogs/';
 
             // Tên tệp gốc trên máy khách
             $filename = basename($_FILES['Img']['name']);
@@ -109,5 +118,14 @@ class BlogController extends BaseController
             // echo "No file uploaded or invalid request.";
         }
         return null;
+    }
+
+    public function getAllsFK()
+    {
+        $data = $this->model->mGetAllsFK();
+
+        // Trả về dữ liệu dưới dạng JSON
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }

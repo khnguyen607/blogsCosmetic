@@ -1,7 +1,8 @@
 function defaultFunc() {
     var divtoNew = document.querySelector('.user__info').cloneNode(true)
     // hàm hiển thị bài viết 
-    function show_user() {
+    async function show_user() {
+        await Helper.fetchBackendLink()
         document.querySelector('.user__list').innerHTML = ''
         fetch(Helper.backendLink + '?controller=user')
             .then(response => response.json())
@@ -14,7 +15,10 @@ function defaultFunc() {
                     var td = divNew.querySelectorAll('td')
                     td[0].textContent = item.Name
                     td[1].textContent = item.Username
-                    td[2].querySelector('a').href = './backend/index.php?controller=user&action=delUser&id=' + item.ID
+                    td[2].querySelector('a').addEventListener('click', async () => {
+                        await Helper.fetchData('user&action=delete&id=' + item.ID)
+                        location.reload()
+                    })
                     document.querySelector('.user__list').appendChild(divNew)
                 });
 
