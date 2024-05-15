@@ -31,10 +31,11 @@ class BlogModel extends BaseModel
 
     public function mGetComments($id)
     {
-        $sql = "SELECT comments.*, users.Name AS userName
-                FROM `comments` 
-                INNER JOIN users ON comments.userID = users.ID
-                WHERE comments.productID=$id";
+        $sql = "SELECT comments.*, users.Name
+                FROM comments
+                INNER JOIN users ON comments.userID=users.ID
+                WHERE blogID = $id
+                ORDER BY comments.ID";
         $query = $this->_query($sql);
         $data = [];
 
@@ -45,13 +46,12 @@ class BlogModel extends BaseModel
         return $data;
     }
 
-    public function mGetGenres($id)
+    public function mGetCategories($id)
     {
-        $sql = "SELECT genres.*
-                FROM `genres`
-                INNER JOIN syn_movies_genres ON genres.ID = syn_movies_genres.genreID
-                INNER JOIN movies ON syn_movies_genres.movieID = movies.ID
-                WHERE syn_movies_genres.movieID = $id";
+        $sql = "SELECT categories.*
+                FROM categories
+                INNER JOIN syn_blogs_categories ON categories.ID = syn_blogs_categories.categoryID
+                WHERE syn_blogs_categories.blogID = $id";
         $query = $this->_query($sql);
         $data = [];
 
@@ -61,5 +61,4 @@ class BlogModel extends BaseModel
 
         return $data;
     }
-
 }

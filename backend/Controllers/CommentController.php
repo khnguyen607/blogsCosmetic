@@ -31,10 +31,11 @@ class CommentController extends BaseController
     public function insert()
     {
         $data = [
-            'userID'      => $_POST['userID'],
-            'productID'      => $_POST['productID'],
             'Content'      => $_POST['Content'],
+            'userID'      => $_POST['userID'],
+            'blogID'      => $_POST['blogID'],
         ];
+        if (isset($_POST['parentCommentID']) && $_POST['parentCommentID'] != "null") $data['parentCommentID'] = $_POST['parentCommentID'];
         $this->model->mInsert($data);
         echo "true";
     }
@@ -57,6 +58,4 @@ class CommentController extends BaseController
         $this->model->mDelete($id);
         header("Location: ../frontend/admin/?page=nutritionists");
     }
-
-
 }

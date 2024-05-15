@@ -75,10 +75,10 @@ class BlogController extends BaseController
         echo json_encode($data);
     }
 
-    public function getGenres()
+    public function getCategories()
     {
         $id = $_GET['id'];
-        $data = $this->model->mGetGenres($id);
+        $data = $this->model->mGetCategories($id);
         // Trả về dữ liệu dưới dạng JSON
         header('Content-Type: application/json');
         echo json_encode($data);
