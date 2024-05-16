@@ -103,6 +103,10 @@ function formatDate(inputDateStr) {
 }
 
 async function addComment(Content, userID, parentCommentID, blogID) {
+    if (!Helper.getCookie('user_id')) {
+        alert('Đăng nhập để có thể bình luận')
+        return
+    }
     const formData = new FormData();
     formData.append("Content", Content)
     formData.append("userID", userID)

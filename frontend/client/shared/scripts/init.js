@@ -2,6 +2,7 @@ _setEffect();
 document.addEventListener('DOMContentLoaded', async () => {
     await _getLayouts();
     _setUser()
+    _setBtnSearch()
 })
 
 async function _getLayouts() {
@@ -18,6 +19,7 @@ async function _getLayouts() {
         } else {
             document.querySelector(`.main-menu a[href='./']`).parentNode.classList.add('active')
         }
+
     } catch (error) {
         console.error('Error loading HTML:', error);
     }
@@ -58,7 +60,6 @@ async function _setUser() {
         document.querySelector(".ht-us-menu").innerHTML = `
             <li><a href="#"><i class="fa fa-user-circle-o"></i>Xin chào, Nguyên</a>
                 <ul class="ht-dropdown right">
-                    <li><a href="./?page=myAccount">Tài khoản của tôi</a></li>
                     <li><a onclick="Helper.fetchData('user&action=logout'); location.reload()">Đăng xuất</a></li>
                 </ul>
             </li>
@@ -68,5 +69,20 @@ async function _setUser() {
             <li class="loginLink"><a href="./?page=loginRegister">Đăng nhập</a></li>
         `
     }
+}
+
+async function _setBtnSearch() {
+    var $headerSearchToggle = $('.header-search-toggle');
+    var $headerSearchForm = $('.header-search-form');
+    $headerSearchToggle.on('click', function () {
+        var $this = $(this);
+        if (!$this.hasClass('open')) {
+            $this.addClass('open').find('i').removeClass('fa fa-search').addClass('fa fa-times');
+            $headerSearchForm.slideDown();
+        } else {
+            $this.removeClass('open').find('i').removeClass('fa fa-times').addClass('fa fa-search');
+            $headerSearchForm.slideUp();
+        }
+    });
 }
 

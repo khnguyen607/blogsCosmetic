@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th5 15, 2024 lúc 03:41 PM
+-- Thời gian đã tạo: Th5 16, 2024 lúc 06:22 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -139,7 +139,8 @@ INSERT INTO `comments` (`ID`, `Content`, `Date`, `parentCommentID`, `userID`, `b
 (24, 'Bình luận 2.1', '2024-05-15 08:42:07', 22, 2, 1),
 (25, 'Bình luận 2.2', '2024-05-15 08:42:07', 22, 2, 1),
 (27, 'Bình luận 2.3', '2024-05-15 16:28:19', 22, 2, 1),
-(29, '3. Bình luận 1', '2024-05-15 16:34:24', NULL, 2, 3);
+(29, '3. Bình luận 1', '2024-05-15 16:34:24', NULL, 2, 3),
+(40, 'Bl1', '2024-05-15 23:25:01', NULL, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -189,11 +190,11 @@ CREATE TABLE `syn_blogs_categories` (
 
 INSERT INTO `syn_blogs_categories` (`ID`, `categoryID`, `blogID`) VALUES
 (1, 1, 2),
-(2, 3, 1),
-(3, 3, 1),
 (4, 2, 2),
 (8, 2, 5),
-(9, 3, 5);
+(9, 3, 5),
+(10, 1, 1),
+(11, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -310,7 +311,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -322,7 +323,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `syn_blogs_categories`
 --
 ALTER TABLE `syn_blogs_categories`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

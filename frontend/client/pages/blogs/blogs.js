@@ -2,30 +2,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     // await Helper.fetchBackendLink();
     // Đổ danh sách sản phẩm
     _init();
+    _showCategories();
 })
 
 async function _init() {
     var items = await Helper.fetchData("blog")
-    showDatas(items)
+    await showDatas(items)
     // Thêm sự kiện lọc giá khi bấm lọc
-    // document.querySelector(".price-range-area .text-uppercase").addEventListener('click', () => filterBy())
-    // document.querySelector(".shop_sidebar_searchbar i").addEventListener('click', () => filterBy())
+    console.log(Helper.getParameter('q'));
+    if (Helper.getParameter('q')) document.querySelector(".sidebar-search input").value = Helper.getParameter('q')
+    filterBy()
+    document.querySelector(".sidebar-search form").addEventListener('submit', (evt) => { evt.preventDefault(); filterBy() })
 }
 
 async function filterBy() {
-    document.querySelectorAll("#grid .col-lg-3").forEach(item => {
-        if (
-            byName(item.querySelector(".product-name a").textContent)
-        ) {
-            item.classList.remove("d-none")
-        } else {
-            item.classList.add("d-none")
-        }
-    })
+    runMain()
+    async function runMain() {
+        var items = await Helper.fetchData("blog&action=getAllsFK")
+        var items = items.filter(item => {
+            if (!byName(item.Name)) return false
+            if (!byCategories(item.categoriesValue)) return false
+            return true
+        })
+        showDatas(items)
+    }
 
     // Lọc theo tên
     function byName(name) {
-        var nameValue = Helper.getParameterByName('q')
+        var nameValue = document.querySelector(".sidebar-search input").value
+        if (name.toLowerCase().includes(nameValue.toLowerCase())) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function byCategories(name) {
+        if (!name) return false
+        if (!Helper.getParameter("category")) return true
+        var nameValue = Helper.getParameter("category")
         if (name.toLowerCase().includes(nameValue.toLowerCase())) {
             return true
         } else {
@@ -43,19 +58,28 @@ async function showDatas(items) {
         let cloneData = dataItem.cloneNode(true)
 
         cloneData.querySelector(".title a").textContent = item.Name
-        cloneData.querySelectorAll("a[href='./?page=blogDetails']").forEach(i=>i.href=`./?page=blogDetails&id=${item.ID}`)
+        cloneData.querySelectorAll("a[href='./?page=blogDetails']").forEach(i => i.href = `./?page=blogDetails&id=${item.ID}`)
         cloneData.querySelector("img").src = Helper.getLink(item.Img)
         cloneData.querySelector("p").textContent = item.Subtitle
 
         const date = new Date(item.Date);
         cloneData.querySelector(".date").textContent = date.getDate()
-        cloneData.querySelector(".month").textContent = "Th"+(date.getMonth() + 1)
-        
-        // cloneData.querySelector(".rate span").textContent = item.Rate
-        // cloneData.querySelector(".hvr-inner a").href = `./?page=movieDetails&id=${item.ID}`
+        cloneData.querySelector(".month").textContent = "Th" + (date.getMonth() + 1)
 
         dataList.appendChild(cloneData)
     });
-    // document.querySelector(".shop_sidebar_searchbar input").value = Helper.getParameterByName("search")
-    filterBy()
+}
+
+async function _showCategories() {
+    var items = await Helper.fetchData("category")
+    var dataList = document.querySelector(".sidebar-list")
+    dataList.innerHTML = ""
+    items.forEach(item => {
+        let dataItem = document.createElement("li")
+        dataItem.innerHTML = `<a href="#"><i class="fa fa-angle-right"></i>${item.Name}</a>`
+        dataItem.addEventListener('click', () => {
+            window.location.href = `./?page=blogs&category=${item.Name}`
+        })
+        dataList.appendChild(dataItem)
+    })
 }
