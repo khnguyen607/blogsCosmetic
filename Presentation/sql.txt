@@ -1,0 +1,13 @@
+1. Lấy ra dữ liệu danh mục
+SELECT blogs.*, users.Name AS user, 
+    GROUP_CONCAT(categories.Name SEPARATOR ', ') AS categoriesValue
+    FROM blogs
+    INNER JOIN users ON blogs.userID = users.ID
+    LEFT JOIN syn_blogs_categories ON blogs.ID = syn_blogs_categories.blogID
+    LEFT JOIN categories ON syn_blogs_categories.categoryID = categories.ID
+    GROUP BY blogs.ID;
+2. Lấy comments:
+SELECT comments.*, users.Name AS userName, blogs.Name AS blogName
+    FROM comments
+    INNER JOIN users ON comments.userID = users.ID
+    INNER JOIN blogs ON comments.blogID = blogs.ID;
