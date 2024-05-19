@@ -1,9 +1,9 @@
 /**
 * Template Name: Papr
 * Updated: Nov 17 2023 with Bootstrap v5.3.2
-* Template URL: https://Nhóm 8.com/nice-admin-bootstrap-admin-html-template/
-* Author: Nhóm 8.com
-* License: https://Nhóm 8.com/license/
+* Template URL: https://Nhóm 2.com/nice-admin-bootstrap-admin-html-template/
+* Author: Nhóm 2.com
+* License: https://Nhóm 2.com/license/
 */
 (function() {
   "use strict";

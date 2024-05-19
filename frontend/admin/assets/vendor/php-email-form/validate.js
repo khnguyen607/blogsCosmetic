@@ -1,7 +1,7 @@
 /**
 * PHP Email Form Validation - v3.6
-* URL: https://Nhóm 8.com/php-email-form/
-* Author: Nhóm 8.com
+* URL: https://Nhóm 2.com/php-email-form/
+* Author: Nhóm 2.com
 */
 (function () {
   "use strict";
