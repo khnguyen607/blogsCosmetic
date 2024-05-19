@@ -3,7 +3,7 @@ class Helper {
     static backendLink = null;
     static async fetchBackendLink() {
         try {
-            const response = await fetch("conf.json");
+            const response = await fetch("../conf.json");
             const data = await response.json();
             this.backendLink = data.backend;
         } catch (error) {

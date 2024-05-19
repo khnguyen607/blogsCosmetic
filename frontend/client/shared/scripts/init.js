@@ -58,7 +58,7 @@ async function _setUser() {
 
     if (checkUser && userInfo.Role == 0) {
         document.querySelector(".ht-us-menu").innerHTML = `
-            <li><a href="#"><i class="fa fa-user-circle-o"></i>Xin chào, Nguyên</a>
+            <li><a href="#"><i class="fa fa-user-circle-o"></i>Xin chào, ${userInfo.Name}</a>
                 <ul class="ht-dropdown right">
                     <li><a onclick="Helper.fetchData('user&action=logout'); location.reload()">Đăng xuất</a></li>
                 </ul>

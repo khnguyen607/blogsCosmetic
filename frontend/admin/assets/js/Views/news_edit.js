@@ -62,7 +62,7 @@ async function defaultFunc() {
                 .then(data => {
                     if (data) {
                         alert('Thêm thành công')
-                        location.reload()
+                        location.href='index.html'
                     } else {
                         alert('Thêm thất bại!')
                     }
