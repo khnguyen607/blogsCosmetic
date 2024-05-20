@@ -1,4 +1,4 @@
 {
-    "backend": "https://501e-1-55-15-204.ngrok-free.app/backend/"
+    "backend": "http://localhost:3000/backend/"
 }
   

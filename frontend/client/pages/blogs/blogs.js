@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // await Helper.fetchBackendLink();
-    // Đổ danh sách sản phẩm
-    _init();
+    await Helper.fetchBackendLink();
+        // await Helper.fetchBackendLink();
+        // Đổ danh sách sản phẩm
+        _init();
     _showCategories();
 })
 
@@ -10,42 +11,6 @@ async function _init() {
     if (Helper.getParameter('q')) document.querySelector(".sidebar-search input").value = Helper.getParameter('q')
     filterBy(items)
     document.querySelector(".sidebar-search form").addEventListener('submit', (evt) => { evt.preventDefault(); filterBy(items) })
-}
-
-async function filterBy(items) {
-    runMain(items)
-    async function runMain(items) {
-        var items = items.filter(item => {
-            if (!byName(item.Name)) return false
-            if (!byCategories(item.categoriesValue)) return false
-            return true
-        })
-        let chunkItem = chunkArray(items, 4)
-        new Pagination(chunkItem);
-        showDatas(chunkItem[1])
-    }
-
-    // Lọc theo tên
-    function byName(name) {
-        var nameValue = document.querySelector(".sidebar-search input").value
-        if (name.toLowerCase().includes(nameValue.toLowerCase())) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    function byCategories(name) {
-        if (!Helper.getParameter("category")) return true
-        if (!name) return false
-        var nameValue = Helper.getParameter("category")
-        if (name.toLowerCase().includes(nameValue.toLowerCase())) {
-            return true
-        } else {
-            return false
-        }
-    }
-
 }
 
 async function showDatas(items) {
@@ -93,6 +58,42 @@ function chunkArray(array, chunkSize) {
     return result;
 }
 
+async function filterBy(items) {
+    runMain(items)
+    async function runMain(items) {
+        var items = items.filter(item => {
+            if (!byName(item.Name)) return false
+            if (!byCategories(item.categoriesValue)) return false
+            return true
+        })
+        let chunkItem = chunkArray(items, 4)
+        new Pagination(chunkItem);
+        showDatas(chunkItem[1])
+    }
+
+    // Lọc theo tên
+    function byName(name) {
+        var nameValue = document.querySelector(".sidebar-search input").value
+        if (name.toLowerCase().includes(nameValue.toLowerCase())) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function byCategories(name) {
+        if (!Helper.getParameter("category")) return true
+        if (!name) return false
+        var nameValue = Helper.getParameter("category")
+        if (name.toLowerCase().includes(nameValue.toLowerCase())) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+}
+
 class Pagination {
     static curentPage = 1
     static items = null
@@ -109,7 +110,7 @@ class Pagination {
         });
         document.querySelector(`.page-pagination li[data-pageIndex="${Pagination.curentPage}"]`).classList.add("active")
         showDatas(Pagination.items[Pagination.curentPage])
-        
+
     }
 
     eventListeners() {

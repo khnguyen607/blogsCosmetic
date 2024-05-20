@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    await Helper.fetchBackendLink();
     // Khởi tạo trang
     _init();
     _getCategory();
